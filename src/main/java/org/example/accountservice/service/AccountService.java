@@ -28,6 +28,18 @@ public class AccountService {
         accountRepository.save(account);
     }
 
+    @Transactional
+    public void deposit(Long cardNumber, double amount) {
+        Account account = accountRepository.findByCardNumber(cardNumber)
+                .orElse(null);
+        if (account != null) {
+            if (amount > 0) {
+                account.setBalance(account.getBalance() + amount);
+                accountRepository.save(account);
+            }
+        }
+    }
+
     private Long generateUUID() {
         return System.currentTimeMillis() / 100;
     }
