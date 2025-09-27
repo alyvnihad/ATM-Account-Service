@@ -40,8 +40,31 @@ public class AccountService {
         }
     }
 
+    @Transactional
+    public void withdraw(Long cardNumber, double amount) {
+        Account account = accountRepository.findByCardNumber(cardNumber)
+                .orElse(null);
+        if (account != null) {
+            if (account.getTransferLimitTime().isBefore(LocalDate.now())) {
+                account.setTransferLimitTime(LocalDate.now());
+                account.setTransferLimit(2000);
+            }
+
+            if ((amount > 0 && account.getBalance() >= amount) && (account.getTransferLimit() >= amount)) {
+                account.setBalance(account.getBalance() - amount);
+                account.setTransferLimit(account.getTransferLimit() - amount);
+                accountRepository.save(account);
+            }
+        }
+    }
+
+    public double getBalance(Long cardNumber) {
+        Account account = accountRepository.findByCardNumber(cardNumber).orElseThrow(() -> new RuntimeException("error"));
+        return account.getCardNumber() + account.getBalance();
+    }
+
+
     private Long generateUUID() {
         return System.currentTimeMillis() / 100;
     }
-
 }
