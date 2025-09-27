@@ -21,4 +21,14 @@ public class AccountController {
     public void deposit(@RequestBody AccountRequest request){
         accountService.deposit(request.getCardNumber(), request.getAmount());
     }
+
+    @PostMapping("/withdraw")
+    public void withdraw(@RequestBody AccountRequest request){
+        accountService.withdraw(request.getCardNumber(), request.getAmount());
+    }
+
+    @GetMapping("/balance")
+    public Double balanceRead(@RequestBody AccountRequest request){
+        return accountService.getBalance(request.getCardNumber());
+    }
 }
