@@ -24,7 +24,7 @@ public class AccountService {
         account.setBalance(0);
         account.setCurrency(currency);
         account.setTransferLimit(2000);
-        account.setTransferLimitTime(LocalDate.now());
+        account.setTransferLimitTime(LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()));
         accountRepository.save(account);
     }
 
@@ -46,7 +46,7 @@ public class AccountService {
                 .orElse(null);
         if (account != null) {
             if (account.getTransferLimitTime().isBefore(LocalDate.now())) {
-                account.setTransferLimitTime(LocalDate.now());
+                account.setTransferLimitTime(LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()));
                 account.setTransferLimit(2000);
             }
 
@@ -60,7 +60,7 @@ public class AccountService {
 
     public double getBalance(Long cardNumber) {
         Account account = accountRepository.findByCardNumber(cardNumber).orElseThrow(() -> new RuntimeException("error"));
-        return account.getCardNumber() + account.getBalance();
+        return account.getBalance();
     }
 
 
