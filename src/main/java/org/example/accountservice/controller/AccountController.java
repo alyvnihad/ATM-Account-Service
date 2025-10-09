@@ -1,7 +1,7 @@
 package org.example.accountservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.accountservice.dto.AccountRequest;
+import org.example.accountservice.payload.AccountPayload;
 import org.example.accountservice.service.AccountService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,22 +13,22 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/register")
-    public void register(@RequestBody AccountRequest request) {
-        accountService.register(request.getCardNumber(),request.getCurrency());
+    public void register(@RequestBody AccountPayload payload) {
+        accountService.register(payload);
     }
 
     @PostMapping("/deposit")
-    public void deposit(@RequestBody AccountRequest request){
-        accountService.deposit(request.getCardNumber(), request.getAmount());
+    public void deposit(@RequestBody AccountPayload payload){
+        accountService.deposit(payload);
     }
 
     @PostMapping("/withdraw")
-    public void withdraw(@RequestBody AccountRequest request){
-        accountService.withdraw(request.getCardNumber(), request.getAmount());
+    public void withdraw(@RequestBody AccountPayload payload){
+        accountService.withdraw(payload);
     }
 
-    @GetMapping("/balance")
-    public Double balanceRead(@RequestBody AccountRequest request){
-        return accountService.getBalance(request.getCardNumber());
+    @PostMapping("/balance")
+    public Double balanceRead(@RequestBody AccountPayload payload){
+        return accountService.getBalance(payload);
     }
 }
