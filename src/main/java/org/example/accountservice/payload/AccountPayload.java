@@ -6,6 +6,7 @@ import lombok.Data;
 public class AccountPayload {
     private Long accountId;
     private Long accountNumber;
+    private String email;
     private Long cardNumber;
     private Double amount;
     private Long atmId;
