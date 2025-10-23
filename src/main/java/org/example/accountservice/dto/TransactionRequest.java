@@ -6,6 +6,7 @@ import lombok.Data;
 public class TransactionRequest {
     private Long accountId;
     private Long cardNumber;
+    private String email;
     private String type;
     private Double amount;
     private Long atmId;
