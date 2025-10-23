@@ -13,6 +13,7 @@ public class Account {
     private Long id;
     private Long accountNumber;
     private Long cardNumber;
+    private String email;
     private double balance;
 
     @Enumerated(EnumType.STRING)
