@@ -1,6 +1,7 @@
 package org.example.accountservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.accountservice.dto.AccountResponse;
 import org.example.accountservice.payload.AccountPayload;
 import org.example.accountservice.service.AccountService;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +14,8 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/register")
-    public void register(@RequestBody AccountPayload payload) {
-        accountService.register(payload);
+    public AccountResponse register(@RequestBody AccountPayload payload) {
+        return accountService.register(payload);
     }
 
     @PostMapping("/deposit")
