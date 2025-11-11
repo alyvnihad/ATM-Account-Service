@@ -13,4 +13,5 @@ public class AccountPayload {
     private double balance;
     private String currency;
     private double transferLimit;
+    private String token;
 }
