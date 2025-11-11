@@ -10,4 +10,5 @@ public class TransactionRequest {
     private String type;
     private Double amount;
     private Long atmId;
+    private String token;
 }
