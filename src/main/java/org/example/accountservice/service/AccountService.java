@@ -9,6 +9,8 @@ import org.example.accountservice.model.Currency;
 import org.example.accountservice.payload.AccountPayload;
 import org.example.accountservice.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -68,9 +70,14 @@ public class AccountService {
             request.setType("deposit");
             request.setAmount(payload.getAmount());
             request.setAtmId(payload.getAtmId());
+            request.setToken(payload.getToken());
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(payload.getToken());
+            HttpEntity<TransactionRequest> entity = new HttpEntity<>(request,headers);
 
             // Transaction service call send log
-            restTemplate.postForEntity(transactionUrl + "/log", request, TransactionRequest.class);
+            restTemplate.postForEntity(transactionUrl + "/log", entity, TransactionRequest.class);
         }
 
     }
@@ -102,9 +109,14 @@ public class AccountService {
             request.setType("withdraw");
             request.setAmount(payload.getAmount());
             request.setAtmId(payload.getAtmId());
+            request.setToken(payload.getToken());
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(payload.getToken());
+            HttpEntity<TransactionRequest> entity = new HttpEntity<>(request,headers);
 
             // Transaction service call send log
-            restTemplate.postForEntity(transactionUrl + "/log", request, TransactionRequest.class);
+            restTemplate.postForEntity(transactionUrl + "/log", entity, TransactionRequest.class);
         }
     }
 
