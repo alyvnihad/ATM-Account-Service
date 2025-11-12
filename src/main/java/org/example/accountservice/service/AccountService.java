@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.accountservice.dto.AccountResponse;
 import org.example.accountservice.dto.TransactionRequest;
+import org.example.accountservice.exception.BadRequestException;
+import org.example.accountservice.exception.NotFoundException;
 import org.example.accountservice.model.Account;
 import org.example.accountservice.model.Currency;
 import org.example.accountservice.payload.AccountPayload;
@@ -59,7 +61,7 @@ public class AccountService {
                 account.setBalance(account.getBalance() + payload.getAmount());
                 accountRepository.save(account);
             } else {
-                throw new RuntimeException("Your deposit greater than zero. Amount: " + payload.getAmount());
+                throw new BadRequestException("Your deposit greater than zero. Amount: " + payload.getAmount());
             }
 
             // Prepare transaction request
@@ -98,7 +100,7 @@ public class AccountService {
                 account.setTransferLimit(account.getTransferLimit() - payload.getAmount());
                 accountRepository.save(account);
             } else {
-                throw new RuntimeException("Transfer limit: " + account.getTransferLimit());
+                throw new BadRequestException("Transfer limit: " + account.getTransferLimit());
             }
 
             // Prepare transaction request
@@ -122,7 +124,7 @@ public class AccountService {
 
     // Get current account balance
     public double getBalance(AccountPayload payload) {
-        Account account = accountRepository.findByCardNumber(payload.getCardNumber()).orElseThrow(() -> new RuntimeException("error"));
+        Account account = accountRepository.findByCardNumber(payload.getCardNumber()).orElseThrow(() -> new NotFoundException("Not found Card Number"));
         return account.getBalance();
     }
 
